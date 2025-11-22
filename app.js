@@ -1,12 +1,19 @@
 document.getElementById("searchBtn").addEventListener("click", function () {
     
-    fetch("superheroes.php")
-        .then(response => response.text()) 
+    let userInput = document.getElementById("searchInput").value.trim();
+
+    userInput = userInput.replace(/[^a-zA-Z0-9 ]/g, "");
+
+    let url = "superheroes.php?query=" + encodeURIComponent(userInput);
+
+    fetch(url)
+        .then(response => response.text())
         .then(data => {
-            alert(data);  
+            document.getElementById("result").innerHTML = data;
         })
-        .catch(error => {
-            alert("Error: " + error);
+        .catch(err => {
+            document.getElementById("result").innerHTML = "Error fetching data.";
         });
 
 });
+
